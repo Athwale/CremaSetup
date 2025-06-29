@@ -72,7 +72,7 @@ public final class WelcomeActivity extends android.app.Activity implements
             // Start by setting the password, rest is handled one by one in onActivityResult
             // Password:
             intent.setClassName("com.android.settings",
-                    "settings.password.SetupChooseLockGeneric$InternalActivity");
+                    "com.android.settings.password.ScreenLockSuggestionActivity");
             startActivityForResult(intent, REQUEST_1);
         } catch (Exception e) {
             Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
