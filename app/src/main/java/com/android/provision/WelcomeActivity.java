@@ -92,7 +92,7 @@ public final class WelcomeActivity extends android.app.Activity implements
             Settings.Global.putInt(getContentResolver(), "device_provisioned", 1);
             Settings.Secure.putInt(getContentResolver(), "user_setup_complete", 1);
             // Set default timeouts.
-            Settings.System.putInt(getContentResolver(), "screen_off_timeout", 10);
+            Settings.System.putInt(getContentResolver(), "screen_off_timeout", 600000);
             Settings.System.putInt(getContentResolver(), "shutdown_timeout", 60);
             Settings.System.putInt(getContentResolver(), "wifi_off_timeout", 60);
             Settings.System.putInt(getContentResolver(), "bluetooth_off_timeout", 5);
