@@ -5,6 +5,7 @@ import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -57,7 +58,7 @@ public final class WelcomeActivity extends android.app.Activity implements
             File dow_dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
 
             for(String filename : files) {
-                if (filename.endsWith(".pdf")) {
+                if (filename.endsWith(".pdf") || filename.endsWith(".apk")) {
                     File out_file = new File(dow_dir.getAbsolutePath(), filename);
 
                     InputStream in = assetManager.open(filename);
