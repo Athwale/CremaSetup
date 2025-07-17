@@ -73,7 +73,6 @@ public final class WelcomeActivity extends android.app.Activity implements
                     out = null;
                 }
             }
-            Toast.makeText(this, "Books copied", Toast.LENGTH_LONG).show();
         } catch(IOException | NullPointerException e) {
             Toast.makeText(this, "Copying books failed" + e,
                     Toast.LENGTH_LONG).show();
@@ -97,6 +96,13 @@ public final class WelcomeActivity extends android.app.Activity implements
             Settings.System.putInt(getContentResolver(), "shutdown_timeout", 60);
             Settings.System.putInt(getContentResolver(), "wifi_off_timeout", 60);
             Settings.System.putInt(getContentResolver(), "bluetooth_off_timeout", 5);
+            // Set some other stuff.
+            Settings.System.putInt(getContentResolver(), "haptic_feedback_enabled", 1);
+            Settings.System.putInt(getContentResolver(), "location_global_kill_switch", 1);
+            Settings.System.putInt(getContentResolver(), "netstats_enabled", 0);
+            Settings.System.putInt(getContentResolver(), "usb_mass_storage_enabled", 0);
+            Settings.System.putInt(getContentResolver(), "lock_screen_allow_private_notifications", 0);
+            Settings.System.putInt(getContentResolver(), "speak_password", 0);
 
             // Disable and kill setup wizard
             getPackageManager().setApplicationEnabledSetting(getPackageName(),
