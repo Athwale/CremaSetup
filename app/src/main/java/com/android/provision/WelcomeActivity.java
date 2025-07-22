@@ -8,9 +8,7 @@ import android.provider.Settings;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.Toast;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -21,12 +19,9 @@ import java.io.OutputStream;
 import java.util.Objects;
 
 
-public final class WelcomeActivity extends android.app.Activity implements
-        View.OnClickListener {
+public final class WelcomeActivity extends android.app.Activity {
 
     private String start_code = null;
-
-    // todo use provisioner to get wifi info?
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +54,11 @@ public final class WelcomeActivity extends android.app.Activity implements
 
         setContentView(R.layout.welcome_activity);
 
-        Button mButton = findViewById(R.id.button);
-        mButton.setOnClickListener(this);
+        // Set screen lock, copy basic books, provision device
+        this.copy_assets();
+        // Do this last to prevent user from exiting from device setup.
+        this.do_provision();
+        this.finish();
     }
 
     @Override
@@ -133,13 +131,5 @@ public final class WelcomeActivity extends android.app.Activity implements
             Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
             Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
         }
-    }
-
-    @Override
-    public void onClick(View view) {
-        // Set screen lock, copy basic books, provision device
-        this.copy_assets();
-        // Do this last to prevent user from exiting from device setup.
-        this.do_provision();
     }
 }
