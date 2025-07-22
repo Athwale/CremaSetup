@@ -5,26 +5,48 @@ import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.util.Objects;
 
 
 public final class WelcomeActivity extends android.app.Activity implements
         View.OnClickListener {
 
+    private String start_code = null;
+
+    // todo use provisioner to get wifi info?
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Read activity start code.
+        BufferedReader reader;
+        try {
+            final InputStream file = getAssets().open("start_code.ptx");
+            reader = new BufferedReader(new InputStreamReader(file));
+            this.start_code = reader.readLine();
+            file.close();
+        } catch (Exception e) {
+            finish();
+        }
+
+        String code = getIntent().getStringExtra("start_code");
+        if (!Objects.equals(code, this.start_code)) {
+            finish();
+        }
 
         // Hide buttons.
         View decorView = getWindow().getDecorView();
