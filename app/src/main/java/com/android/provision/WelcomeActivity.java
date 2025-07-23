@@ -89,8 +89,6 @@ public final class WelcomeActivity extends android.app.Activity {
                     out.flush();
                     in.close();
                     out.close();
-                    in = null;
-                    out = null;
                 }
             }
         } catch(IOException | NullPointerException e) {
@@ -107,8 +105,8 @@ public final class WelcomeActivity extends android.app.Activity {
     }
 
     public void do_provision() {
-        // Finish device provisioning. This enables control buttons and normal operation.
         try {
+            // Finish device provisioning. This enables control buttons and normal operation.
             Settings.Global.putInt(getContentResolver(), "device_provisioned", 1);
             Settings.Secure.putInt(getContentResolver(), "user_setup_complete", 1);
             // Set default timeouts.
