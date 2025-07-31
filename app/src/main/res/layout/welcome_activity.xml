@@ -8,12 +8,15 @@
     android:background="@color/white"
     tools:context=".WelcomeActivity">
 
-    <TextView
-        android:id="@+id/startText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/first_boot"
+    <Button
+        android:id="@+id/button"
+        android:layout_width="239dp"
+        android:layout_height="71dp"
+        android:background="#000000"
+        android:text="@string/initial_setup"
+        android:textColor="@color/white"
         android:textSize="30sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -3,12 +3,13 @@ package com.android.provision;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.Settings;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.Toast;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -19,9 +20,11 @@ import java.io.OutputStream;
 import java.util.Objects;
 
 
-public final class WelcomeActivity extends android.app.Activity {
+public final class WelcomeActivity extends android.app.Activity implements
+        View.OnClickListener {
 
     private String start_code = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,11 +57,8 @@ public final class WelcomeActivity extends android.app.Activity {
 
         setContentView(R.layout.welcome_activity);
 
-        // Set screen lock, copy basic books, provision device
-        this.copy_assets();
-        // Do this last to prevent user from exiting from device setup.
-        this.do_provision();
-        this.finish();
+        Button mButton = findViewById(R.id.button);
+        mButton.setOnClickListener(this);
     }
 
     @Override
@@ -75,10 +75,10 @@ public final class WelcomeActivity extends android.app.Activity {
 
         try {
             String[] files = assetManager.list("");
-            File dow_dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+            File dow_dir = new File("/sdcard/Download/");
 
             for(String filename : files) {
-                if (filename.endsWith(".pdf") || filename.endsWith(".apk")) {
+                if (filename.endsWith(".pdf")) {
                     File out_file = new File(dow_dir.getAbsolutePath(), filename);
 
                     InputStream in = assetManager.open(filename);
@@ -89,6 +89,9 @@ public final class WelcomeActivity extends android.app.Activity {
                     out.flush();
                     in.close();
                     out.close();
+                    // Required for the next loop.
+                    in = null;
+                    out = null;
                 }
             }
         } catch(IOException | NullPointerException e) {
@@ -105,8 +108,8 @@ public final class WelcomeActivity extends android.app.Activity {
     }
 
     public void do_provision() {
+        // Finish device provisioning. This enables control buttons and normal operation.
         try {
-            // Finish device provisioning. This enables control buttons and normal operation.
             Settings.Global.putInt(getContentResolver(), "device_provisioned", 1);
             Settings.Secure.putInt(getContentResolver(), "user_setup_complete", 1);
             // Set default timeouts.
@@ -129,5 +132,14 @@ public final class WelcomeActivity extends android.app.Activity {
             Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
             Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
         }
+    }
+
+    @Override
+    public void onClick(View view) {
+        // Set screen lock, copy basic books, provision device
+        this.copy_assets();
+        // Do this last to prevent user from exiting from device setup.
+        this.do_provision();
+        this.finish();
     }
 }
